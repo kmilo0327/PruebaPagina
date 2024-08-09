@@ -3,16 +3,20 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo Installing Apache
-      - sudo yum -y update
-      - sudo yum install httpd -y
+      - echo "Instalando httpd"
+      - yum install -y httpd
+
   build:
     commands:
-      - echo Build started on date`
-      - cp index.html /var/www/html
+      - echo "Construyendo aplicación"
+      - echo "<html><body><h1>Hola Mundo</h1></body></html>" > /var/www/html/index.html
+
   post_build:
     commands:
-      - echo Configuring Apache
+      - echo "Iniciando servidor web"
+      - systemctl start httpd
+      - systemctl enable httpd
+
 artifacts:
   files:
-    -/var/www/html/index.html
+    - /var/www/html/index.html
